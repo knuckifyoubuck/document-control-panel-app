@@ -1,0 +1,34 @@
+<form class="login-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+  <h1>Document Control Panel</h1>
+  <mat-form-field>
+    <mat-label>Email</mat-label>
+    <input
+      matInput
+      formControlName="email"
+      autocomplete="new-password"
+      (blur)="updateEmailErrorMessage()"
+      required />
+    @if (loginForm.get('email')?.invalid) {
+      <mat-error>{{ emailErrorMessage() }}</mat-error>
+    }
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Password</mat-label>
+    <input
+      matInput
+      formControlName="password"
+      autocomplete="new-password"
+      type="password"
+      (blur)="updatePasswordErrorMessage()"
+      required />
+    @if (loginForm.get('password')?.invalid) {
+      <mat-error>{{ passwordErrorMessage() }}</mat-error>
+    }
+  </mat-form-field>
+  <button class="with-loader" mat-flat-button [disabled]="!loginForm.valid || isLoading()">
+    <span>Sign In</span>
+    @if (isLoading()) {
+      <mat-spinner diameter="20"></mat-spinner>
+    }
+  </button>
+</form>

@@ -1,0 +1,30 @@
+@use '@angular/material' as mat;
+@use '../variables';
+
+:root {
+  .snackbar-error {
+    @include mat.snack-bar-overrides(
+      (
+        container-color: variables.$error-color,
+        supporting-text-color: white,
+      )
+    );
+  }
+
+  .snackbar-success {
+    @include mat.snack-bar-overrides(
+      (
+        container-color: variables.$success-color,
+        supporting-text-color: white,
+      )
+    );
+  }
+
+  .sign-in-button {
+    .mdc-button__label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+  }
+}

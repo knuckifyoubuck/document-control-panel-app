@@ -1,0 +1,28 @@
+@use '@angular/material' as mat;
+
+:root {
+  --mdc-fab-container-elevation-shadow: 0;
+  --mdc-fab-hover-container-elevation-shadow: 0;
+  --mdc-fab-pressed-container-elevation-shadow: 0;
+  --mdc-fab-focus-container-elevation-shadow: 0;
+
+  --mdc-fab-small-container-elevation-shadow: 0;
+  --mdc-fab-small-hover-container-elevation-shadow: 0;
+  --mdc-fab-small-pressed-container-elevation-shadow: 0;
+  --mdc-fab-small-focus-container-elevation-shadow: 0;
+
+  --mdc-extended-fab-container-elevation-shadow: 0;
+  --mdc-extended-fab-hover-container-elevation-shadow: 0;
+  --mdc-extended-fab-pressed-container-elevation-shadow: 0;
+  --mdc-extended-fab-focus-container-elevation-shadow: 0;
+}
+
+.with-loader {
+  align-self: center;
+
+  .mdc-button__label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+}

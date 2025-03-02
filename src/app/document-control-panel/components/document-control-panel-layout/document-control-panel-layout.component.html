@@ -1,0 +1,20 @@
+<div class="navigation-wrapper">
+  <div class="header-wrapper">
+    <div class="user-info">
+      <div>Name: {{ userData.fullName }}</div>
+      <div>Role: {{ userData.role }}</div>
+    </div>
+    @if (!isReviewer()) {
+      <button mat-fab extended (click)="createDocument()" class="create-document-document">
+        <mat-icon aria-label="Create Document" fontIcon="add_circle"> </mat-icon>
+        <span>Create Document</span>
+      </button>
+    }
+  </div>
+
+  <button mat-fab extended (click)="logout()" class="logout-button">
+    <mat-icon aria-label="Logout" fontIcon="logout"> </mat-icon>
+    <span>Log Out</span>
+  </button>
+</div>
+<router-outlet />

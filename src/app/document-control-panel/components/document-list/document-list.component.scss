@@ -1,0 +1,31 @@
+:host {
+  height: calc(100% - 100px);
+  display: block;
+  position: relative;
+
+  .document-filters {
+    display: flex;
+    gap: 10px;
+  }
+
+  .document-list {
+    position: relative;
+    height: calc(100% - 125px);
+    overflow: auto;
+    background-color: #faf9fd;
+
+    .document-table {
+      position: relative;
+    }
+
+    .action-button-wrapper {
+      display: flex;
+      justify-content: center;
+      gap: 5px;
+    }
+
+    th {
+      user-select: none;
+    }
+  }
+}

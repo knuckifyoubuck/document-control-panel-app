@@ -1,0 +1,43 @@
+<form
+  id="create-document-form"
+  class="create-document-form"
+  [formGroup]="createDocumentForm"
+  (ngSubmit)="onSubmit()">
+  <mat-form-field>
+    <mat-label>Name</mat-label>
+    <input matInput formControlName="name" (blur)="updateNameErrorMessage()" required />
+    @if (createDocumentForm.get('name')?.invalid) {
+      <mat-error>{{ nameErrorMessage() }}</mat-error>
+    }
+  </mat-form-field>
+
+  <div class="upload-form-wrapper">
+    <app-upload-file-form formControlName="file" />
+    @if (createDocumentForm.get('file')?.invalid) {
+      <mat-error>{{ fileErrorMessage() }}</mat-error>
+    }
+  </div>
+
+  <mat-form-field>
+    <mat-label>Status</mat-label>
+    <mat-select formControlName="status" [compareWith]="compareFunction">
+      @for (status of documentStatusCreateSelect; track status) {
+        <mat-option [value]="status.key">{{ status.value }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+</form>
+
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button
+    mat-button
+    form="create-document-form"
+    class="with-loader"
+    [disabled]="!createDocumentForm.valid || isLoading()">
+    <span>Create Document</span>
+    @if (isLoading()) {
+      <mat-spinner diameter="20"></mat-spinner>
+    }
+  </button>
+</mat-dialog-actions>
