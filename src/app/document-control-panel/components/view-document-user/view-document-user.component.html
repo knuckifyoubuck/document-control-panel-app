@@ -1,68 +1,65 @@
-<div class="header-wrapper">
-  <div>
-    <div><b>Document name:</b> {{ documentName() }}</div>
-    <div><b>Status:</b> {{ documentStatus() | documentStatus }}</div>
-  </div>
+<app-view-document [documentName]="this.documentName()" [documentStatus]="this.documentStatus()">
+  <header-content>
+    <mat-form-field subscriptSizing="dynamic">
+      <mat-label>New name</mat-label>
+      <input matInput [formControl]="newNameFormControl" (blur)="updateNameErrorMessage()" />
+      @if (newNameFormControl.invalid) {
+        <mat-error>{{ newNameErrorMessage() }}</mat-error>
+      }
+    </mat-form-field>
 
-  <mat-form-field subscriptSizing="dynamic">
-    <mat-label>New name</mat-label>
-    <input matInput [formControl]="newNameFormControl" (blur)="updateNameErrorMessage()" />
-    @if (newNameFormControl.invalid) {
-      <mat-error>{{ newNameErrorMessage() }}</mat-error>
-    }
-  </mat-form-field>
-
-  <button
-    mat-button
-    form="create-document-form"
-    class="with-loader"
-    (click)="updateDocument()"
-    [disabled]="isLoading() || documentName() === newNameFormControl.value">
-    <span>Update document name</span>
-    @if (isLoading()) {
-      <mat-spinner diameter="20"></mat-spinner>
-    }
-  </button>
-</div>
-
-<div id="pspdfkit-container" style="width: 100%; height: 100%"></div>
-
-<mat-dialog-actions>
-  <button mat-button mat-dialog-close>Cancel</button>
-
-  @if (
-    documentStatus() !== documentStatusEnum.REVOKE &&
-    documentStatus() === documentStatusEnum.READY_FOR_REVIEW
-  ) {
     <button
-      [disabled]="isLoading()"
-      mat-mini-fab
-      aria-label="Revoke"
-      matTooltip="Revoke Document"
-      (click)="revokeDocumentFromReview()">
-      <mat-icon fontIcon="undo"></mat-icon>
+      mat-button
+      form="create-document-form"
+      class="with-loader"
+      (click)="updateDocument()"
+      [disabled]="isLoading() || documentName() === newNameFormControl.value">
+      <span>Update document name</span>
+      @if (isLoading()) {
+        <mat-spinner diameter="20"></mat-spinner>
+      }
     </button>
-  }
-  @if (
-    documentStatus() === documentStatusEnum.DRAFT || documentStatus() === documentStatusEnum.REVOKE
-  ) {
-    <button
-      [disabled]="isLoading()"
-      mat-mini-fab
-      aria-label="Delete"
-      matTooltip="Delete Document"
-      (click)="deleteDocument()">
-      <mat-icon fontIcon="delete"></mat-icon>
-    </button>
-  }
-  @if (documentStatus() === documentStatusEnum.DRAFT) {
-    <button
-      [disabled]="isLoading()"
-      mat-mini-fab
-      aria-label="Send on review"
-      matTooltip="Send Document on review"
-      (click)="sendDocumentOnReview()">
-      <mat-icon fontIcon="upload_file"></mat-icon>
-    </button>
-  }
-</mat-dialog-actions>
+  </header-content>
+  <bottom-content>
+    <mat-dialog-actions>
+      <button mat-button mat-dialog-close>Cancel</button>
+
+      @if (
+        documentStatus() !== documentStatusEnum.REVOKE &&
+        documentStatus() === documentStatusEnum.READY_FOR_REVIEW
+      ) {
+        <button
+          [disabled]="isLoading()"
+          mat-mini-fab
+          aria-label="Revoke"
+          matTooltip="Revoke Document"
+          (click)="revokeDocumentFromReview()">
+          <mat-icon fontIcon="undo"></mat-icon>
+        </button>
+      }
+      @if (
+        documentStatus() === documentStatusEnum.DRAFT ||
+        documentStatus() === documentStatusEnum.REVOKE
+      ) {
+        <button
+          [disabled]="isLoading()"
+          mat-mini-fab
+          aria-label="Delete"
+          matTooltip="Delete Document"
+          (click)="deleteDocument()">
+          <mat-icon fontIcon="delete"></mat-icon>
+        </button>
+      }
+      @if (documentStatus() === documentStatusEnum.DRAFT) {
+        <button
+          [disabled]="isLoading()"
+          mat-mini-fab
+          aria-label="Send on review"
+          matTooltip="Send Document on review"
+          (click)="sendDocumentOnReview()">
+          <mat-icon fontIcon="upload_file"></mat-icon>
+        </button>
+      }
+    </mat-dialog-actions>
+  </bottom-content>
+</app-view-document>

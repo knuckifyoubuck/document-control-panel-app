@@ -1,48 +1,43 @@
-<div class="header-wrapper">
-  <div>
-    <div><b>Document name:</b> {{ documentName() }}</div>
-    <div><b>Status:</b> {{ documentStatus() | documentStatus }}</div>
-  </div>
-</div>
+<app-view-document [documentName]="this.documentName()" [documentStatus]="this.documentStatus()">
+  <bottom-content>
+    <mat-dialog-actions>
+      <button mat-button mat-dialog-close>Cancel</button>
 
-<div id="pspdfkit-container" style="width: 100%; height: 100%"></div>
-
-<mat-dialog-actions>
-  <button mat-button mat-dialog-close>Cancel</button>
-
-  @if (documentStatus() === documentStatusEnum.READY_FOR_REVIEW) {
-    <button
-      mat-button
-      class="with-loader"
-      (click)="changeStatus(changeStatusEnumEnum.UNDER_REVIEW)"
-      [disabled]="isLoading()">
-      <span>Send under review</span>
-      @if (isLoading()) {
-        <mat-spinner diameter="20"></mat-spinner>
+      @if (documentStatus() === documentStatusEnum.READY_FOR_REVIEW) {
+        <button
+          mat-button
+          class="with-loader"
+          (click)="changeStatus(changeStatusEnum.UNDER_REVIEW)"
+          [disabled]="isLoading()">
+          <span>Send under review</span>
+          @if (isLoading()) {
+            <mat-spinner diameter="20"></mat-spinner>
+          }
+        </button>
       }
-    </button>
-  }
 
-  @if (documentStatus() === documentStatusEnum.UNDER_REVIEW) {
-    <button
-      mat-button
-      class="with-loader"
-      (click)="changeStatus(changeStatusEnumEnum.APPROVED)"
-      [disabled]="isLoading()">
-      <span>Approve</span>
-      @if (isLoading()) {
-        <mat-spinner diameter="20"></mat-spinner>
+      @if (documentStatus() === documentStatusEnum.UNDER_REVIEW) {
+        <button
+          mat-button
+          class="with-loader"
+          (click)="changeStatus(changeStatusEnum.APPROVED)"
+          [disabled]="isLoading()">
+          <span>Approve</span>
+          @if (isLoading()) {
+            <mat-spinner diameter="20"></mat-spinner>
+          }
+        </button>
+        <button
+          mat-button
+          class="with-loader"
+          (click)="changeStatus(changeStatusEnum.DECLINED)"
+          [disabled]="isLoading()">
+          <span>Decline</span>
+          @if (isLoading()) {
+            <mat-spinner diameter="20"></mat-spinner>
+          }
+        </button>
       }
-    </button>
-    <button
-      mat-button
-      class="with-loader"
-      (click)="changeStatus(changeStatusEnumEnum.DECLINED)"
-      [disabled]="isLoading()">
-      <span>Decline</span>
-      @if (isLoading()) {
-        <mat-spinner diameter="20"></mat-spinner>
-      }
-    </button>
-  }
-</mat-dialog-actions>
+    </mat-dialog-actions>
+  </bottom-content>
+</app-view-document>

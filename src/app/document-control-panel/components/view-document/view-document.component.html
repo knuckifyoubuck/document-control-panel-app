@@ -1,0 +1,12 @@
+<div class="header-wrapper">
+  <div>
+    <div><b>Document name:</b> {{ documentName() }}</div>
+    <div><b>Status:</b> {{ documentStatus() | documentStatus }}</div>
+  </div>
+
+  <ng-content select="header-content"></ng-content>
+</div>
+
+<div id="pspdfkit-container"></div>
+
+<ng-content select="bottom-content"></ng-content>

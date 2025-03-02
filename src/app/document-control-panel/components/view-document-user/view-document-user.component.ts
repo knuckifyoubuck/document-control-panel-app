@@ -1,7 +1,12 @@
-import { ChangeDetectionStrategy, Component, inject, AfterViewInit, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  signal,
+  NO_ERRORS_SCHEMA,
+} from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import PSPDFKit from 'pspdfkit';
 import { DocumentApiService } from '../../shared/services/document-api.service';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { LoaderService } from '@document-control-app/core/services/loader.service';
@@ -21,10 +26,10 @@ import { catchError, of } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { SnackBarService } from '@document-control-app/core/services/snackbar.service';
 import { DocumentStatus } from '../../shared/enums/document-status.enum';
-import { DocumentStatusPipe } from '../../shared/pipes/document-status.pipe';
+import { ViewDocumentComponent } from '../view-document/view-document.component';
 
 @Component({
-  selector: 'app-view-document',
+  selector: 'app-view-document-user',
   imports: [
     MatDialogModule,
     MatButtonModule,
@@ -34,13 +39,14 @@ import { DocumentStatusPipe } from '../../shared/pipes/document-status.pipe';
     ReactiveFormsModule,
     MatIconModule,
     MatTooltipModule,
-    DocumentStatusPipe,
+    ViewDocumentComponent,
   ],
   templateUrl: './view-document-user.component.html',
   styleUrl: './view-document-user.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  schemas: [NO_ERRORS_SCHEMA],
 })
-export class ViewDocumentUserComponent implements AfterViewInit {
+export class ViewDocumentUserComponent {
   dialogRef = inject(MatDialogRef);
   documentData = inject(MAT_DIALOG_DATA).document;
   documentApiService = inject(DocumentApiService);
@@ -51,20 +57,10 @@ export class ViewDocumentUserComponent implements AfterViewInit {
   documentStatus = signal(this.documentData.status);
   newNameFormControl = new FormControl<string>(this.documentData.name, [
     Validators.required,
-    this.sameNameValidtator(),
+    this.sameNameValidator(),
   ]);
   newNameErrorMessage = signal('');
   documentStatusEnum = DocumentStatus;
-
-  ngAfterViewInit() {
-    this.documentApiService.getDocumentById(this.documentData.id).subscribe(res => {
-      PSPDFKit.load({
-        baseUrl: `${location.protocol}//${location.host}/assets/`,
-        document: res.fileUrl!,
-        container: '#pspdfkit-container',
-      });
-    });
-  }
 
   updateNameErrorMessage() {
     if (this.newNameFormControl.hasError('required')) {
@@ -148,7 +144,7 @@ export class ViewDocumentUserComponent implements AfterViewInit {
       });
   }
 
-  private sameNameValidtator(): ValidatorFn {
+  private sameNameValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       const value = control.value;
       if (!value) {
