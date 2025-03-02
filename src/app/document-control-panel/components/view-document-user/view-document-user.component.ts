@@ -22,8 +22,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { catchError, of } from 'rxjs';
-import { HttpErrorResponse } from '@angular/common/http';
 import { SnackBarService } from '@document-control-app/core/services/snackbar.service';
 import { DocumentStatus } from '../../shared/enums/document-status.enum';
 import { ViewDocumentComponent } from '../view-document/view-document.component';
@@ -75,73 +73,35 @@ export class ViewDocumentUserComponent {
   updateDocument() {
     this.documentApiService
       .updateDocument(this.documentData.id, this.newNameFormControl.value as string)
-      .pipe(
-        catchError((error: HttpErrorResponse) => {
-          this.snackBar.error(error.error.message);
-          return of(error);
-        })
-      )
-      .subscribe(res => {
-        if (!(res instanceof HttpErrorResponse)) {
-          this.documentApiService.documentChanged$.next();
-          this.documentName.set(this.newNameFormControl.value);
-          this.snackBar.success('Document name was changed successfuly');
-        }
+      .subscribe(() => {
+        this.documentApiService.documentChanged$.next();
+        this.documentName.set(this.newNameFormControl.value);
+        this.snackBar.success('Document name was changed successfuly');
       });
   }
 
   revokeDocumentFromReview() {
-    this.documentApiService
-      .revokeDocumentFromReview(this.documentData.id)
-      .pipe(
-        catchError((error: HttpErrorResponse) => {
-          this.snackBar.error(error.error.message);
-          return of(error);
-        })
-      )
-      .subscribe(res => {
-        if (!(res instanceof HttpErrorResponse)) {
-          this.documentApiService.documentChanged$.next();
-          this.documentStatus.set(DocumentStatus.REVOKE);
-          this.snackBar.success('Document was successfuly revoked from review');
-        }
-      });
+    this.documentApiService.revokeDocumentFromReview(this.documentData.id).subscribe(() => {
+      this.documentApiService.documentChanged$.next();
+      this.documentStatus.set(DocumentStatus.REVOKE);
+      this.snackBar.success('Document was successfuly revoked from review');
+    });
   }
 
   sendDocumentOnReview() {
-    this.documentApiService
-      .sendDocumentToReview(this.documentData.id)
-      .pipe(
-        catchError((error: HttpErrorResponse) => {
-          this.snackBar.error(error.error.message);
-          return of(error);
-        })
-      )
-      .subscribe(res => {
-        if (!(res instanceof HttpErrorResponse)) {
-          this.documentApiService.documentChanged$.next();
-          this.documentStatus.set(DocumentStatus.READY_FOR_REVIEW);
-          this.snackBar.success('Document was sent on review');
-        }
-      });
+    this.documentApiService.sendDocumentToReview(this.documentData.id).subscribe(() => {
+      this.documentApiService.documentChanged$.next();
+      this.documentStatus.set(DocumentStatus.READY_FOR_REVIEW);
+      this.snackBar.success('Document was sent on review');
+    });
   }
 
   deleteDocument() {
-    this.documentApiService
-      .removeDocument(this.documentData.id)
-      .pipe(
-        catchError((error: HttpErrorResponse) => {
-          this.snackBar.error(error.error.message);
-          return of(error);
-        })
-      )
-      .subscribe(res => {
-        if (!(res instanceof HttpErrorResponse)) {
-          this.documentApiService.documentChanged$.next();
-          this.dialogRef.close(true);
-          this.snackBar.success('Document was successfuly deleted');
-        }
-      });
+    this.documentApiService.removeDocument(this.documentData.id).subscribe(() => {
+      this.documentApiService.documentChanged$.next();
+      this.dialogRef.close(true);
+      this.snackBar.success('Document was successfuly deleted');
+    });
   }
 
   private sameNameValidator(): ValidatorFn {

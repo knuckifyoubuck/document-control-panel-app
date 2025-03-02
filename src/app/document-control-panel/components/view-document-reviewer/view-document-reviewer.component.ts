@@ -15,8 +15,6 @@ import {
 } from '../../shared/enums/change-document-status.enum';
 import { LoaderService } from '@document-control-app/core/services/loader.service';
 import { SnackBarService } from '@document-control-app/core/services/snackbar.service';
-import { catchError, of } from 'rxjs';
-import { HttpErrorResponse } from '@angular/common/http';
 import { MatButtonModule } from '@angular/material/button';
 import { DocumentStatus } from '../../shared/enums/document-status.enum';
 import { ViewDocumentComponent } from '../view-document/view-document.component';
@@ -49,20 +47,12 @@ export class ViewDocumentReviewerComponent {
   changeStatus(documentStatus: ChangeDocumentStatus) {
     this.documentApiService
       .changeDocumentStatus(this.documentData.id, { status: documentStatus })
-      .pipe(
-        catchError((error: HttpErrorResponse) => {
-          this.snackBar.error(error.error.message);
-          return of(error);
-        })
-      )
-      .subscribe(res => {
-        if (!(res instanceof HttpErrorResponse)) {
-          this.documentApiService.documentChanged$.next();
-          this.documentStatus.set(documentStatus);
-          this.snackBar.success(
-            `Document status was successfuly changed to '${ChangeDocumentStatusValues[documentStatus]}'`
-          );
-        }
+      .subscribe(() => {
+        this.documentApiService.documentChanged$.next();
+        this.documentStatus.set(documentStatus);
+        this.snackBar.success(
+          `Document status was successfuly changed to '${ChangeDocumentStatusValues[documentStatus]}'`
+        );
       });
   }
 }

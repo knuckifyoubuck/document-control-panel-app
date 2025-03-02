@@ -15,12 +15,11 @@ import { LoginApiService } from './shared/services/login-api.service';
 import { LoginReqDto } from '@document-control-app/core/interfaces/login-req-dto.interface';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { LocalStorageService } from '@document-control-app/core/services/local-storage.service';
-import { catchError, concatMap, merge, of, tap } from 'rxjs';
+import { concatMap, merge, tap } from 'rxjs';
 import { MatIconModule } from '@angular/material/icon';
 import { Router } from '@angular/router';
 import { LoaderService } from '@document-control-app/core/services/loader.service';
 import { UserService } from './shared/services/user.service';
-import { HttpErrorResponse } from '@angular/common/http';
 import { SnackBarService } from '@document-control-app/core/services/snackbar.service';
 
 @Component({
@@ -77,17 +76,10 @@ export class LoginComponent {
         tap(loginRes => {
           this.localStorageService.setAuthToken(loginRes.access_token);
         }),
-        concatMap(() => this.userService.getUser()),
-        catchError((error: HttpErrorResponse) => {
-          this.snackBar.error(error.error.message);
-
-          return of(null);
-        })
+        concatMap(() => this.userService.getUser())
       )
-      .subscribe(userRes => {
-        if (userRes) {
-          this.router.navigate(['document-control-panel']);
-        }
+      .subscribe(() => {
+        this.router.navigate(['document-control-panel']);
       });
   }
 

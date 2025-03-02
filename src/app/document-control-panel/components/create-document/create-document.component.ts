@@ -4,7 +4,7 @@ import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { DocumentApiService } from '../../shared/services/document-api.service';
-import { catchError, of, tap } from 'rxjs';
+import { tap } from 'rxjs';
 import {
   AbstractControl,
   FormBuilder,
@@ -21,7 +21,6 @@ import { LoaderService } from '@document-control-app/core/services/loader.servic
 import { MatSelectModule } from '@angular/material/select';
 import { UploadFileFormComponent } from '../upload-file-form/upload-file-form.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { HttpErrorResponse } from '@angular/common/http';
 import { SnackBarService } from '@document-control-app/core/services/snackbar.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
@@ -82,16 +81,10 @@ export class CreateDocumentComponent {
         tap({
           subscribe: () => (this.dialogRef.disableClose = true),
           finalize: () => (this.dialogRef.disableClose = false),
-        }),
-        catchError((error: HttpErrorResponse) => {
-          this.snackBar.error(error.error.message);
-          return of(null);
         })
       )
-      .subscribe(res => {
-        if (res) {
-          this.dialogRef.close(true);
-        }
+      .subscribe(() => {
+        this.dialogRef.close(true);
       });
   }
 
