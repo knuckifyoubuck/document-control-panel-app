@@ -24,7 +24,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { SnackBarService } from '@document-control-app/core/services/snackbar.service';
 import { DocumentStatus } from '../../shared/enums/document-status.enum';
-import { ViewDocumentComponent } from '../view-document/view-document.component';
+import { ViewDocumentComponent } from '../../containers/view-document/view-document.component';
 
 @Component({
   selector: 'app-view-document-user',

@@ -17,7 +17,7 @@ import { LoaderService } from '@document-control-app/core/services/loader.servic
 import { SnackBarService } from '@document-control-app/core/services/snackbar.service';
 import { MatButtonModule } from '@angular/material/button';
 import { DocumentStatus } from '../../shared/enums/document-status.enum';
-import { ViewDocumentComponent } from '../view-document/view-document.component';
+import { ViewDocumentComponent } from '../../containers/view-document/view-document.component';
 
 @Component({
   selector: 'app-view-document-reviewer',
