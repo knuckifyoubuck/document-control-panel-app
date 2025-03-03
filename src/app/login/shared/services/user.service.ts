@@ -10,7 +10,7 @@ import { LocalStorageService } from '@document-control-app/core/services/local-s
 })
 export class UserService {
   isReviewer: WritableSignal<boolean> = signal(false);
-  userData: Pick<UserResDto, 'fullName' | 'role'>;
+  userData: WritableSignal<Pick<UserResDto, 'fullName' | 'role'> | null> = signal(null);
 
   constructor(
     private http: HttpService,
@@ -18,7 +18,7 @@ export class UserService {
   ) {
     if (this.localStorageService.getUserData()) {
       this.isReviewer.set(this.localStorageService.getUserData()!.role === UserRole.REVIEWER);
-      this.userData = this.localStorageService.getUserData()!;
+      this.userData.set(this.localStorageService.getUserData()!);
     }
   }
 
@@ -26,7 +26,7 @@ export class UserService {
     return this.http.get<object, UserResDto>('/user', {}).pipe(
       tap(userRes => {
         this.isReviewer.set(userRes.role === UserRole.REVIEWER);
-        this.userData = userRes;
+        this.userData.set(userRes);
 
         this.localStorageService.setUserData({ fullName: userRes.fullName, role: userRes.role });
       })

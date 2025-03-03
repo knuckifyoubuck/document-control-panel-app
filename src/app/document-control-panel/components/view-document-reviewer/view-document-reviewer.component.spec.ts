@@ -24,19 +24,19 @@ describe('ViewDocumentReviewerComponent', () => {
       id: 'id',
       email: 'email',
       fullName: 'name',
-      role: UserRole.USER
+      role: UserRole.USER,
     },
     id: 'id',
     name: 'Test Document',
     status: DocumentStatus.READY_FOR_REVIEW,
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
-    fileUrl: '/testpath'
+    fileUrl: '/testpath',
   };
 
   beforeEach(waitForAsync(() => {
     mockDialogRef = jasmine.createSpyObj(['close']);
-    
+
     TestBed.configureTestingModule({
       providers: [
         ViewDocumentReviewerComponent,
@@ -46,8 +46,8 @@ describe('ViewDocumentReviewerComponent', () => {
         { provide: MatDialogRef, useValue: mockDialogRef },
         DocumentApiService,
         LoaderService,
-        SnackBarService
-      ]
+        SnackBarService,
+      ],
     }).compileComponents();
   }));
 
@@ -56,7 +56,8 @@ describe('ViewDocumentReviewerComponent', () => {
     component = fixture.componentInstance;
     documentApiService = TestBed.inject(DocumentApiService);
 
-    spyOn(documentApiService, 'changeDocumentStatus').and.callFake((id: string, changeDocumentStatus: ChangeDocumentStatusDto) => {
+    spyOn(documentApiService, 'changeDocumentStatus').and.callFake(
+      (id: string, changeDocumentStatus: ChangeDocumentStatusDto) => {
         component.documentStatus.set(changeDocumentStatus.status);
         return of();
       }
@@ -69,22 +70,28 @@ describe('ViewDocumentReviewerComponent', () => {
 
   it('should change document status to UNDER_REVIEW', () => {
     component.changeStatus(ChangeDocumentStatus.UNDER_REVIEW);
-    
-    expect(documentApiService.changeDocumentStatus).toHaveBeenCalledWith(mockDocument.id, { status: ChangeDocumentStatus.UNDER_REVIEW });
+
+    expect(documentApiService.changeDocumentStatus).toHaveBeenCalledWith(mockDocument.id, {
+      status: ChangeDocumentStatus.UNDER_REVIEW,
+    });
     expect(component.documentStatus()).toBe(ChangeDocumentStatus.UNDER_REVIEW);
   });
 
   it('should change document status to APPROVED', () => {
     component.changeStatus(ChangeDocumentStatus.APPROVED);
-    
-    expect(documentApiService.changeDocumentStatus).toHaveBeenCalledWith(mockDocument.id, { status: ChangeDocumentStatus.APPROVED });
+
+    expect(documentApiService.changeDocumentStatus).toHaveBeenCalledWith(mockDocument.id, {
+      status: ChangeDocumentStatus.APPROVED,
+    });
     expect(component.documentStatus()).toBe(ChangeDocumentStatus.APPROVED);
   });
 
   it('should change document status to DECLINED', () => {
     component.changeStatus(ChangeDocumentStatus.DECLINED);
-    
-    expect(documentApiService.changeDocumentStatus).toHaveBeenCalledWith(mockDocument.id, { status: ChangeDocumentStatus.DECLINED });
+
+    expect(documentApiService.changeDocumentStatus).toHaveBeenCalledWith(mockDocument.id, {
+      status: ChangeDocumentStatus.DECLINED,
+    });
     expect(component.documentStatus()).toBe(ChangeDocumentStatus.DECLINED);
   });
 });

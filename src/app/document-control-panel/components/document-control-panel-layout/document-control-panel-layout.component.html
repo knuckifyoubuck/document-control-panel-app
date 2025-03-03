@@ -1,8 +1,8 @@
 <div class="navigation-wrapper">
   <div class="header-wrapper">
     <div class="user-info">
-      <div>Name: {{ userData.fullName }}</div>
-      <div>Role: {{ userData.role }}</div>
+      <div>Name: {{ userData()?.fullName }}</div>
+      <div>Role: {{ userData()?.role }}</div>
     </div>
     @if (!isReviewer()) {
       <button mat-fab extended (click)="createDocument()" class="create-document-document">

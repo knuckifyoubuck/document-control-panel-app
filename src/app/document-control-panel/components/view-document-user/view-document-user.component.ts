@@ -62,7 +62,7 @@ export class ViewDocumentUserComponent {
 
   updateNameErrorMessage() {
     if (this.newNameFormControl.hasError('required')) {
-      this.newNameErrorMessage.set('You must enter an name');
+      this.newNameErrorMessage.set('You must enter a name');
     } else if (this.newNameFormControl.hasError('sameName')) {
       this.newNameErrorMessage.set('Name must not be identical');
     } else {

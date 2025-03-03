@@ -90,7 +90,7 @@ export class CreateDocumentComponent {
 
   updateNameErrorMessage() {
     if (this.name.hasError('required')) {
-      this.nameErrorMessage.set('You must enter an name');
+      this.nameErrorMessage.set('You must enter a name');
     } else {
       this.nameErrorMessage.set('');
     }

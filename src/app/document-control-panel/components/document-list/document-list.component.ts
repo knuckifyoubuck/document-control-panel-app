@@ -56,6 +56,8 @@ import { DocumentStatusPipe } from '../../shared/pipes/document-status.pipe';
 })
 export class DocumentListComponent implements AfterViewInit {
   dialogService = inject(DialogService);
+  isLoading = inject(LoaderService).isLoading;
+  isReviewer = inject(UserService).isReviewer;
 
   readonly displayedColumns: string[];
   readonly documentStatusSelect = Object.entries(DocumentStatusValues).map(([key, value]) => ({
@@ -67,7 +69,6 @@ export class DocumentListComponent implements AfterViewInit {
   pageIndex: WritableSignal<number> = signal(0);
   pageSize: WritableSignal<number> = signal(5);
   listLength: WritableSignal<number> = signal(0);
-  isLoading: WritableSignal<boolean> = inject(LoaderService).isLoading;
 
   statusSelectForm = new FormControl<DocumentStatus | ''>('');
   creatorEmailForm: FormControl<string | ''>;
@@ -75,8 +76,6 @@ export class DocumentListComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatTable) table: MatTable<DocumentResDto>;
-
-  isReviewer = inject(UserService).isReviewer;
 
   ngAfterViewInit() {
     this.documentListSource.paginator = this.paginator;
