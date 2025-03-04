@@ -15,7 +15,7 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
-import { CreateDocumentStatus } from '../../shared/enums/create-document-status.enum';
+import { CreateDocumentStatus, CreateDocumentStatusValues } from '../../shared/enums/create-document-status.enum';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { LoaderService } from '@document-control-app/core/services/loader.service';
 import { MatSelectModule } from '@angular/material/select';
@@ -52,7 +52,7 @@ export class CreateDocumentComponent {
   createDocumentForm: FormGroup;
   nameErrorMessage = signal('');
   fileErrorMessage = signal('');
-  readonly documentStatusCreateSelect = Object.entries(CreateDocumentStatus).map(
+  readonly documentStatusCreateSelect = Object.entries(CreateDocumentStatusValues).map(
     ([key, value]) => ({ key, value })
   );
 
