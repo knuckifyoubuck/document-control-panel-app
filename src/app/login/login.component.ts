@@ -50,7 +50,6 @@ export class LoginComponent {
     private loginApiService: LoginApiService,
     private userService: UserService,
     private localStorageService: LocalStorageService,
-    private snackBar: SnackBarService,
     private router: Router
   ) {
     this.isLoading = inject(LoaderService).isLoading;
